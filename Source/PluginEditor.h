@@ -37,7 +37,6 @@ private:
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> blendAttachment;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> volumeAttachment;
    
-
     VisualAudioProcessor& audioProcessor;
 
 
