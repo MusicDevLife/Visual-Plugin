@@ -22,6 +22,20 @@ VisualAudioProcessor::VisualAudioProcessor()
                        )
 #endif
 {
+
+    state = new AudioProcessorValueTreeState(*this, nullptr);
+
+    state->createAndAddParameter("drive", "Drive", "Drive", NormalisableRange<float>(0.f, 1.f, 0.0001), 1.0, nullptr, nullptr);
+    state->createAndAddParameter("range", "Range", "Range", NormalisableRange<float>(0.f, 3000.f, 0.0001), 1.0, nullptr, nullptr);
+    state->createAndAddParameter("blend", "Blend", "Blend", NormalisableRange<float>(0.f, 1.f, 0.0001), 1.0, nullptr, nullptr);
+    state->createAndAddParameter("volume", "Volume", "Volume", NormalisableRange<float>(0.f, 3.f, 0.0001), 1.0, nullptr, nullptr);
+
+
+    state->state = ValueTree("drive");
+    state->state = ValueTree("range");
+    state->state = ValueTree("blend");
+    state->state = ValueTree("volume");
+
 }
 
 VisualAudioProcessor::~VisualAudioProcessor()
@@ -145,11 +159,31 @@ void VisualAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
+
+    float drive = *state->getRawParameterValue("drive");
+    float range = *state->getRawParameterValue("range");
+    float blend = *state->getRawParameterValue("blend");
+    float volume = *state->getRawParameterValue("volume");
+
+
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
 
-        // ..do something to the data...
+        for (int sample = 0; sample < buffer.getNumSamples(); sample++) {
+
+            float cleanSignal = *channelData;
+
+            *channelData *= drive * range;
+
+            *channelData = (((((2 / float_Pi)* atan(*channelData) * blend) * (cleanSignal * (1.f/blend))) / 2) *volume);
+
+             channelData++;
+        }
+
+        
+
+     
     }
 }
 
@@ -175,12 +209,23 @@ void VisualAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+
+    MemoryOutputStream stream(destData, false);
+
+    state->state.writeToStream(stream);
 }
 
 void VisualAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+
+    ValueTree tree = ValueTree::readFromData(data, sizeInBytes);
+
+    if (tree.isValid()) {
+        state->state = tree;
+
+    }
 }
 
 //==============================================================================
