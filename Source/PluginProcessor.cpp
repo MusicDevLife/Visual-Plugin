@@ -25,16 +25,16 @@ VisualAudioProcessor::VisualAudioProcessor()
 
     state = new AudioProcessorValueTreeState(*this, nullptr);
 
-    state->createAndAddParameter("drive", "Drive", "Drive", NormalisableRange<float>(0.f, 1.f, 0.0001), 1.0, nullptr, nullptr);
-    state->createAndAddParameter("range", "Range", "Range", NormalisableRange<float>(0.f, 3000.f, 0.0001), 1.0, nullptr, nullptr);
-    state->createAndAddParameter("blend", "Blend", "Blend", NormalisableRange<float>(0.f, 1.f, 0.0001), 1.0, nullptr, nullptr);
-    state->createAndAddParameter("volume", "Volume", "Volume", NormalisableRange<float>(0.f, 3.f, 0.0001), 1.0, nullptr, nullptr);
+    state->createAndAddParameter("Drive", "Drive", "Drive", NormalisableRange<float>(0.f, 1.f, 0.0001), 1.0, nullptr, nullptr);
+    state->createAndAddParameter("Range", "Range", "Range", NormalisableRange<float>(0.f, 3000.f, 0.0001), 1.0, nullptr, nullptr);
+    state->createAndAddParameter("Blend", "Blend", "Blend", NormalisableRange<float>(0.f, 1.f, 0.0001), 1.0, nullptr, nullptr);
+    state->createAndAddParameter("Volume", "Volume", "Volume", NormalisableRange<float>(0.f, 3.f, 0.0001), 1.0, nullptr, nullptr);
 
 
-    state->state = ValueTree("drive");
-    state->state = ValueTree("range");
-    state->state = ValueTree("blend");
-    state->state = ValueTree("volume");
+    state->state = ValueTree("Drive");
+    state->state = ValueTree("Range");
+    state->state = ValueTree("Blend");
+    state->state = ValueTree("Volume");
 
 }
 
@@ -160,10 +160,10 @@ void VisualAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
 
-    float drive = *state->getRawParameterValue("drive");
-    float range = *state->getRawParameterValue("range");
-    float blend = *state->getRawParameterValue("blend");
-    float volume = *state->getRawParameterValue("volume");
+    float drive = *state->getRawParameterValue("Drive");
+    float range = *state->getRawParameterValue("Range");
+    float blend = *state->getRawParameterValue("Blend");
+    float volume = *state->getRawParameterValue("Volume");
 
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
