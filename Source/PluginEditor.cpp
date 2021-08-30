@@ -59,7 +59,7 @@ void VisualAudioProcessorEditor::paint (juce::Graphics& g)
 void VisualAudioProcessorEditor::resized()
 {
     driveKnob->setBounds(((getWidth()/5) *1) - (100/2), (getHeight() /2) - (100/2), 100,100);
-    rangeKnob->setBounds(((getWidth()/ 5) * 1) - (100 / 2), (getHeight() / 2) - (100 / 2), 100, 100);
-    blendKnob->setBounds(((getWidth()/ 5) * 1) - (100 / 2), (getHeight() / 2)- (100 / 2), 100, 100);
-    volumeKnob->setBounds(((getWidth()/ 5) * 1) - (100 / 2), (getHeight() / 2) - (100 / 2), 100, 100);
+    rangeKnob->setBounds(((getWidth()/ 5) * 2) - (100 / 2), (getHeight() / 2) - (100 / 2), 100, 100);
+    blendKnob->setBounds(((getWidth()/ 5) * 3) - (100 / 2), (getHeight() / 2)- (100 / 2), 100, 100);
+    volumeKnob->setBounds(((getWidth()/ 5) * 4) - (100 / 2), (getHeight() / 2) - (100 / 2), 100, 100);
 }
