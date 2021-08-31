@@ -53,12 +53,16 @@ void VisualAudioProcessorEditor::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
-    g.drawFittedText ("", getLocalBounds(), juce::Justification::centred, 1);
+
+    g.drawText ("Drive", ((getWidth() /5) *1) - (100 / 2), (getHeight() / 2) + 5, 100, 100, juce::Justification::centred, false);
+    g.drawText("Range", ((getWidth() / 5) * 2) - (100 / 2), (getHeight() / 2) + 5, 100, 100, juce::Justification::centred, false);
+    g.drawText("Blend", ((getWidth() / 5) * 3) - (100 / 2), (getHeight() / 2) + 5, 100, 100, juce::Justification::centred, false);
+    g.drawText("Volume", ((getWidth() / 5) * 4) - (100 / 2), (getHeight() / 2) + 5, 100, 100, juce::Justification::centred, false);
 }
 
 void VisualAudioProcessorEditor::resized()
 {
-    driveKnob->setBounds(((getWidth()/5) *1) - (100/2), (getHeight() /2) - (100/2), 100,100);
+    driveKnob->setBounds(((getWidth() / 5) * 1) - (100 / 2), (getHeight() / 2) - (100 / 2), 100, 100);
     rangeKnob->setBounds(((getWidth()/ 5) * 2) - (100 / 2), (getHeight() / 2) - (100 / 2), 100, 100);
     blendKnob->setBounds(((getWidth()/ 5) * 3) - (100 / 2), (getHeight() / 2)- (100 / 2), 100, 100);
     volumeKnob->setBounds(((getWidth()/ 5) * 4) - (100 / 2), (getHeight() / 2) - (100 / 2), 100, 100);

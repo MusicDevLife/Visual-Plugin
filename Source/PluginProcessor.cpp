@@ -25,10 +25,10 @@ VisualAudioProcessor::VisualAudioProcessor()
 
     state = new AudioProcessorValueTreeState(*this, nullptr);
 
-    state->createAndAddParameter("Drive", "Drive", "Drive", NormalisableRange<float>(0.f, 1.f, 0.0001), 1.0, nullptr, nullptr);
-    state->createAndAddParameter("Range", "Range", "Range", NormalisableRange<float>(0.f, 3000.f, 0.0001), 1.0, nullptr, nullptr);
-    state->createAndAddParameter("Blend", "Blend", "Blend", NormalisableRange<float>(0.f, 1.f, 0.0001), 1.0, nullptr, nullptr);
-    state->createAndAddParameter("Volume", "Volume", "Volume", NormalisableRange<float>(0.f, 3.f, 0.0001), 1.0, nullptr, nullptr);
+    state->createAndAddParameter("Drive", "Drive", "Drive", NormalisableRange<float>(0.f, 1.f, 0.001), 1.0, nullptr, nullptr);
+    state->createAndAddParameter("Range", "Range", "Range", NormalisableRange<float>(0.f, 3000.f, 0.001), 1.0, nullptr, nullptr);
+    state->createAndAddParameter("Blend", "Blend", "Blend", NormalisableRange<float>(0.f, 1.f, 0.001), 1.0, nullptr, nullptr);
+    state->createAndAddParameter("Volume", "Volume", "Volume", NormalisableRange<float>(0.f, 1.f, 0.001), 1.0, nullptr, nullptr);
 
 
     state->state = ValueTree("Drive");
@@ -176,13 +176,10 @@ void VisualAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
 
             *channelData *= drive * range;
 
-            *channelData = (((((2 / float_Pi)* atan(*channelData) * blend) * (cleanSignal * (1.f/blend))) / 2) *volume);
+            *channelData = (((((2 / float_Pi) * atan(*channelData) * blend) * (cleanSignal * (1.f / blend))) / 2) * volume);
 
-             channelData++;
+            channelData++;
         }
-
-        
-
      
     }
 }
