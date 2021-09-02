@@ -25,15 +25,14 @@ VisualAudioProcessor::VisualAudioProcessor()
 
     state = new AudioProcessorValueTreeState(*this, nullptr);
 
-    state->createAndAddParameter("Drive", "Drive", "Drive", NormalisableRange<float>(0.f, 1.f, 0.001), 1.0, nullptr, nullptr);
-    state->createAndAddParameter("Range", "Range", "Range", NormalisableRange<float>(0.f, 3000.f, 0.001), 1.0, nullptr, nullptr);
-    state->createAndAddParameter("Blend", "Blend", "Blend", NormalisableRange<float>(0.f, 1.f, 0.001), 1.0, nullptr, nullptr);
-    state->createAndAddParameter("Volume", "Volume", "Volume", NormalisableRange<float>(0.f, 1.f, 0.001), 1.0, nullptr, nullptr);
-
+    state->createAndAddParameter("Drive", "Drive", "Drive", NormalisableRange<float>(0.01f, 1.f, 0.0001), 1.0, nullptr, nullptr);
+    state->createAndAddParameter("Distortion", "Distortion", "Distortion", NormalisableRange<float>(0.01f, 25.f, 0.00001), 1.0, nullptr, nullptr);
+    state->createAndAddParameter("Mix", "Mix", "Mix", NormalisableRange<float>(0.01f, 1.f, 0.0001), 1.0, nullptr, nullptr);
+    state->createAndAddParameter("Volume", "Volume", "Volume", NormalisableRange<float>(0.01f, 3.f, 0.0001), 1.0, nullptr, nullptr);
 
     state->state = ValueTree("Drive");
-    state->state = ValueTree("Range");
-    state->state = ValueTree("Blend");
+    state->state = ValueTree("Distortion");
+    state->state = ValueTree("Mix");  
     state->state = ValueTree("Volume");
 
 }
@@ -161,8 +160,8 @@ void VisualAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
     // interleaved by keeping the same state.
 
     float drive = *state->getRawParameterValue("Drive");
-    float range = *state->getRawParameterValue("Range");
-    float blend = *state->getRawParameterValue("Blend");
+    float range = *state->getRawParameterValue("Distortion");
+    float blend = *state->getRawParameterValue("Mix");
     float volume = *state->getRawParameterValue("Volume");
 
 
@@ -176,7 +175,7 @@ void VisualAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
 
             *channelData *= drive * range;
 
-            *channelData = (((((2 / float_Pi) * atan(*channelData) * blend) * (cleanSignal * (1.f / blend))) / 2) * volume);
+            *channelData = (((((2 / float_Pi) * atan(*channelData) * blend) + (cleanSignal * (1.f - blend))) / 2.f) * volume);
 
             channelData++;
         }

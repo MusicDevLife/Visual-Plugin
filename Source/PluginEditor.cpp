@@ -21,11 +21,11 @@ VisualAudioProcessorEditor::VisualAudioProcessorEditor (VisualAudioProcessor& p)
         driveKnob->setSliderStyle(Slider::Rotary);
         driveKnob->setTextBoxStyle(Slider::NoTextBox, false, 100, 100);
 
-        addAndMakeVisible(rangeKnob = new Slider("Range"));
+        addAndMakeVisible(rangeKnob = new Slider("Mix"));
         rangeKnob->setSliderStyle(Slider::Rotary);
         rangeKnob->setTextBoxStyle(Slider::NoTextBox, false, 100, 100);
 
-        addAndMakeVisible(blendKnob = new Slider("Blend"));
+        addAndMakeVisible(blendKnob = new Slider("Distortion"));
         blendKnob->setSliderStyle(Slider::Rotary);
         blendKnob->setTextBoxStyle(Slider::NoTextBox, false, 100, 100);
 
@@ -34,8 +34,8 @@ VisualAudioProcessorEditor::VisualAudioProcessorEditor (VisualAudioProcessor& p)
         volumeKnob->setTextBoxStyle(Slider::NoTextBox, false, 100, 100);
 
         driveAttachment = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "Drive", *driveKnob);
-        rangeAttachment = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "Range", *rangeKnob);
-        blendAttachment = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "Blend", *blendKnob);
+        rangeAttachment = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "Distortion", *rangeKnob);
+        blendAttachment = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "Mix", *blendKnob);
         volumeAttachment = new AudioProcessorValueTreeState::SliderAttachment(p.getState(), "Volume", *volumeKnob);
 
         setSize(500, 200);
@@ -55,8 +55,8 @@ void VisualAudioProcessorEditor::paint (juce::Graphics& g)
     g.setFont (15.0f);
 
     g.drawText ("Drive", ((getWidth() /5) *1) - (100 / 2), (getHeight() / 2) + 5, 100, 100, juce::Justification::centred, false);
-    g.drawText("Range", ((getWidth() / 5) * 2) - (100 / 2), (getHeight() / 2) + 5, 100, 100, juce::Justification::centred, false);
-    g.drawText("Blend", ((getWidth() / 5) * 3) - (100 / 2), (getHeight() / 2) + 5, 100, 100, juce::Justification::centred, false);
+    g.drawText("Distortion", ((getWidth() / 5) * 2) - (100 / 2), (getHeight() / 2) + 5, 100, 100, juce::Justification::centred, false);
+    g.drawText("Mix", ((getWidth() / 5) * 3) - (100 / 2), (getHeight() / 2) + 5, 100, 100, juce::Justification::centred, false);
     g.drawText("Volume", ((getWidth() / 5) * 4) - (100 / 2), (getHeight() / 2) + 5, 100, 100, juce::Justification::centred, false);
 }
 
